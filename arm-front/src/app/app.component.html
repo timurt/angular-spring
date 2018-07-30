@@ -1,0 +1,29 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand">ARM</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item" [class.active]="isCurrentRoute('dashboard')">
+        <a class="nav-link" routerLink="/dashboard">Dashboard</a>
+      </li>
+      <li class="nav-item" [class.active]="isCurrentRoute('apartment')">
+        <a class="nav-link" routerLink="/apartments">Apartments</a>
+      </li>
+      <li class="nav-item" [class.active]="isCurrentRoute('user')">
+          <a class="nav-link" routerLink="/users">Users</a>
+        </li>
+    </ul>
+  </div>
+</nav>
+
+<br/>
+
+<div class="container">
+    <div class="starter-template">
+        <router-outlet></router-outlet>
+    </div>
+</div>
+

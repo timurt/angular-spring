@@ -1,0 +1,28 @@
+<div *ngIf="user">
+    <h2>{{user.name | uppercase}} Details</h2>
+    
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Name</label>
+        <b *ngIf="!showInputs()" class="col-form-label">{{user.name}}</b>
+        <input type="text" *ngIf="showInputs()" class="col-sm-6 form-control" [(ngModel)]="user.name" placeholder="name" #nameInput/>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Login</label>
+        <b *ngIf="!showInputs()" class="col-form-label">{{user.login}}</b>
+        <input type="text" *ngIf="showInputs()" class="col-sm-6 form-control" [(ngModel)]="user.login" placeholder="login"/>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Role Type</label>
+        <b *ngIf="!showInputs()" class="col-form-label">{{user.roleType}}</b>
+        <select *ngIf="showInputs()" class="col-sm-6 form-control" [(ngModel)]="user.roleType">
+            <option value="CLIENT" [selected]="user.roleType == 'CLIENT'">CLIENT</option>
+            <option value="REALTOR"[selected]="user.roleType == 'REALTOR'">REALTOR</option>
+            <option value="ADMIN"[selected]="user.roleType == 'ADMIN'">ADMIN</option>
+        </select>
+    </div>
+    <button (click)="editable = true" *ngIf="!showInputs()" class="btn btn-primary mr-1">Edit</button>
+    <button (click)="deleteUser()" *ngIf="!showInputs()" class="btn btn-primary mr-1">Delete</button>
+    <button (click)="saveUser()" *ngIf="showInputs()" class="btn btn-primary mr-1">Save</button>
+    <button (click)="cancelEditing()" *ngIf="editable == true" class="btn btn-primary mr-1">Cancel</button>
+    <button (click)="goBack()" class="btn btn-primary">Back</button>
+  </div>

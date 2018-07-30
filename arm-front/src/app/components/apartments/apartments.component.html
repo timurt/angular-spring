@@ -1,0 +1,128 @@
+
+<!-- <ul class="apartments">
+  <li *ngFor="let apartment of apartments" (click)="onSelect(apartment)"
+  [class.selected]="apartment === selectedApartment">
+    <span class="badge">{{apartment.id}}</span> {{apartment.name}}
+  </li>
+
+  <li *ngFor="let apartment of apartments">
+    <a routerLink="/detail/{{apartment.id}}">
+      <span class="badge">{{apartment.id}}</span> {{apartment.name}}
+    </a>
+  </li>
+  
+</ul> -->
+
+<!--<app-apartment-detail [apartment]="selectedApartment"></app-apartment-detail>-->
+
+<div class="jumbotron"> 
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Floor Area Size</label>
+        <div class="col-sm-2">
+            <input type="text" [(ngModel)]="filters.floorAreaSizeFrom" class="form-control" placeholder="from"/>
+        </div>
+        <div class="col-sm-2">
+            <input type="text" [(ngModel)]="filters.floorAreaSizeTo" class="form-control" placeholder="to"/>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Price Per Month</label>
+        <div class="col-sm-2">
+            <input type="text" [(ngModel)]="filters.pricePerMonthFrom" class="form-control" placeholder="from"/>
+        </div>
+        <div class="col-sm-2">
+            <input type="text" [(ngModel)]="filters.pricePerMonthTo" class="form-control" placeholder="to"/>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Number Of Rooms</label>
+        <div class="col-sm-2">
+            <input type="text" [(ngModel)]="filters.numberOfRoomsFrom" class="form-control" placeholder="from"/>
+        </div>
+        <div class="col-sm-2">
+            <input type="text" [(ngModel)]="filters.numberOfRoomsTo" class="form-control" placeholder="to"/>
+        </div>
+    </div>
+
+    <hr/>
+
+    <div class="row">
+        <button (click)="onFiltersApply()" class="btn btn-primary mr-1">Apply</button>
+        <button (click)="onFiltersReset()" class="btn btn-success">Reset</button>
+    </div>
+</div>
+
+<div class="col-sm-12">
+
+  <div class="float-left">
+      <div class="form-group row">
+          <label class="col-form-label mr-1">List Size</label>
+          <div>
+              <select class="form-control" (change)="onSizeSelect($event.target.value)">
+                  <option value="5" [selected]="pagination.size == 5">5</option>
+                  <option value="10"[selected]="pagination.size == 10">10</option>
+                  <option value="20"[selected]="pagination.size == 20">20</option>
+              </select>
+          </div>
+      </div>
+  </div>
+
+  <div class="float-right">
+      <button class="btn btn btn-primary" routerLink="/create">
+          <span class="fa fa-plus"></span>
+          Add New
+      </button>
+  </div>      
+</div>
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Floor Area Size</th>
+        <th scope="col">Price Per Month</th>
+        <th scope="col">Number Of Rooms</th>
+        <th scope="col">Added date</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let apartment of apartments">
+        <th scope="row">{{apartment.id}}</th>
+        <td>{{apartment.name}}</td>
+        <td>{{apartment.floorAreaSize}}</td>
+        <td>{{apartment.pricePerMonth}}</td>
+        <td>{{apartment.numberOfRooms}}</td>
+        <td>{{apartment.createdAt}}</td>
+        <td>
+          <a class="btn btn-primary" routerLink="/detail/{{apartment.id}}" role="button">
+            View
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <nav>
+    <ul class="pagination">
+      <li class="page-item" *ngIf="pagination.hasPrev">
+        <a class="page-link" (click)="onPrevPage()" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+          <span class="sr-only">Previous</span>
+        </a>
+      </li>
+      <li class="page-item" 
+      *ngFor="let index of pagination.range"
+      [class.active]="pagination.currentPage == index">
+        <a class="page-link" 
+        (click)="onPageSelect(index)">{{index}}</a>
+      </li>
+      <li class="page-item" *ngIf="pagination.hasNext">
+        <a class="page-link" (click)="onNextPage()" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+          <span class="sr-only">Next</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
