@@ -6,7 +6,22 @@
           <div *ngIf="apartment">
               <h2>{{apartment.name | uppercase}} Details</h2>
               
-              
+              <div class="alert alert-danger" role="alert" *ngIf="showInputs() && error">
+                {{error}}
+              </div>
+              <div class="form-group row" *ngIf="!isNew && !showInputs() && auth.roleMatch(['REALTOR'])">
+                    <label class="col-sm-4 col-form-label">Availability</label>
+                    <div class="form-check form-check-inline">
+                        <input (click)="setFree()" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" [checked]="!apartment.isRented">
+                        <label class="form-check-label" for="inlineRadio1">Free</label>
+                    </div>
+                        <div class="form-check form-check-inline">
+                        <input (click)="setRented()" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" [checked]="apartment.isRented">
+                        <label class="form-check-label" for="inlineRadio2">Rented</label>
+                    </div> 
+              </div>
+                
+
               <div class="form-group row">
                   <label class="col-sm-4 col-form-label">Name</label>
                   <b *ngIf="!showInputs()" class="col-form-label">{{apartment.name}}</b>
@@ -14,12 +29,12 @@
               </div>
               <div class="form-group row">
                   <label class="col-sm-4 col-form-label">Floor Area Size</label>
-                  <b *ngIf="!showInputs()" class="col-form-label">{{apartment.floorAreaSize}}</b>
+                  <b *ngIf="!showInputs()" class="col-form-label">{{apartment.floorAreaSize}} m<sup>2</sup></b>
                   <input type="text" *ngIf="showInputs()" class="col-sm-6 form-control" [(ngModel)]="apartment.floorAreaSize" placeholder="floor area size"/>
               </div>
               <div class="form-group row">
                   <label class="col-sm-4 col-form-label">Price Per Month</label>
-                  <b *ngIf="!showInputs()" class="col-form-label">{{apartment.pricePerMonth}}</b>
+                  <b *ngIf="!showInputs()" class="col-form-label">{{apartment.pricePerMonth}} $</b>
                   <input type="text" *ngIf="showInputs()" class="col-sm-6 form-control" [(ngModel)]="apartment.pricePerMonth" placeholder="price per month"/>
               </div>
               <div class="form-group row">
@@ -32,26 +47,36 @@
                     <input type="text" class="col-sm-6 form-control" placeholder="address" [(ngModel)]="address"/>
                     <button (click)="getCoordinates()" class="btn btn-primary ml-1">Find</button>
               </div>
-              <div class="form-group row">
+              <div class="form-group row" *ngIf="showInputs()">
                   <label class="col-sm-4 col-form-label">Latitude</label>
-                  <b *ngIf="!showInputs()" class="col-form-label">{{apartment.latitude}}</b>
-                  <input type="text" *ngIf="showInputs()" class="col-sm-6 form-control" [(ngModel)]="apartment.latitude" (ngModelChange)="modelChanged($event)" placeholder="latitude"/>
+                  <input type="text" class="col-sm-6 form-control" [(ngModel)]="apartment.latitude" (ngModelChange)="modelChanged($event)" placeholder="latitude"/>
               </div>
-              <div class="form-group row">
+              <div class="form-group row" *ngIf="showInputs()">
                   <label class="col-sm-4 col-form-label">Longitude</label>
-                  <b *ngIf="!showInputs()" class="col-form-label">{{apartment.longitude}}</b>
-                  <input type="text" *ngIf="showInputs()" class="col-sm-6 form-control" [(ngModel)]="apartment.longitude" (ngModelChange)="modelChanged($event)" placeholder="longitude"/>
+                  <input type="text" class="col-sm-6 form-control" [(ngModel)]="apartment.longitude" (ngModelChange)="modelChanged($event)" placeholder="longitude"/>
+              </div>
+              <div class="form-group row" *ngIf="(showInputs() && auth.roleMatch(['ADMIN'])) || !showInputs()">
+                    <label class="col-sm-4 col-form-label">Realtor</label>
+                    <b *ngIf="!showInputs()" class="col-form-label">{{apartment.realtorName}}</b>
+                <select class="col-sm-6 form-control" [(ngModel)]="apartment.realtorId" *ngIf="showInputs() && auth.roleMatch(['ADMIN'])">
+                    <option *ngFor="let user of realtors" value="{{user.id}}" [selected]="user.id == apartment.realtorId">{{user.name}}</option>
+                </select>
+               
               </div>
               <div class="form-group row">
                   <label class="col-sm-4 col-form-label">Description</label>
                   <b *ngIf="!showInputs()" class="col-form-label">{{apartment.description}}</b>
                   <textarea *ngIf="showInputs()" class="col-sm-6 form-control" [(ngModel)]="apartment.description" placeholder="description"></textarea>
               </div>
-              <button (click)="editable = true" *ngIf="!showInputs()" class="btn btn-primary mr-1">Edit</button>
-              <button (click)="deleteApartment()" *ngIf="!showInputs()" class="btn btn-primary mr-1">Delete</button>
-              <button (click)="saveApartment()" *ngIf="showInputs()" class="btn btn-primary mr-1">Save</button>
-              <button (click)="cancelEditing()" *ngIf="editable == true" class="btn btn-primary mr-1">Cancel</button>
-              <button (click)="goBack()" class="btn btn-primary">Back</button>
+             
+              <div *ngIf="auth.roleMatch(['ADMIN', 'REALTOR'])">
+                    <button (click)="editable = true" *ngIf="!showInputs()" class="btn btn-primary mr-1">Edit</button>
+                    <button (click)="deleteApartment()" *ngIf="!showInputs()" class="btn btn-primary mr-1">Delete</button>
+                    <button (click)="saveApartment()" *ngIf="showInputs()" class="btn btn-primary mr-1">Save</button>
+                    <button (click)="cancelEditing()" *ngIf="editable == true" class="btn btn-primary mr-1">Cancel</button>
+              </div>
+              
+              <button (click)="goBack()" class="btn btn-primary mt-1">Back</button>
             </div>
       </div>
       <div class="col-sm-6">

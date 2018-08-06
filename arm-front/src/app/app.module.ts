@@ -1,18 +1,23 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { ApartmentsComponent } from './components/apartments/apartments.component';
 import { ApartmentDetailComponent } from './components/apartment-detail/apartment-detail.component';
-import { AppRoutingModule } from './app-routing.module';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-
-import { HttpClientModule }    from '@angular/common/http';
-
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UsersComponent } from './components/users/users.component';
 import { UserDetailComponent } from './components/user-detail/user-detail.component';
+import { LoginComponent } from './components/login/login.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { NotFoundComponent } from './components/errors/not-found/not-found.component';
+import { AccessForbiddenComponent } from './components/errors/access-forbidden/access-forbidden.component';
+import { ServerErrorComponent } from './components/errors/server-error/server-error.component';
+import { AuthService } from './services/auth/auth.service';
+import { AppRoutingModule } from './app-routing.module';
+import { TokenInterceptor } from './core/token-interceptor';
 
 @NgModule({
   declarations: [
@@ -21,7 +26,11 @@ import { UserDetailComponent } from './components/user-detail/user-detail.compon
     ApartmentDetailComponent,
     DashboardComponent,
     UsersComponent,
-    UserDetailComponent
+    UserDetailComponent,
+    LoginComponent,
+    NotFoundComponent,
+    AccessForbiddenComponent,
+    ServerErrorComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +39,14 @@ import { UserDetailComponent } from './components/user-detail/user-detail.compon
     HttpClientModule,
     NgbModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    AuthService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

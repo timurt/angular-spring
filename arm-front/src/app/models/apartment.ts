@@ -9,4 +9,6 @@ export class Apartment {
     latitude: number;
     createdAt: string;
     realtorName: string;
+    realtorId: number;
+    isRented: boolean;
 }

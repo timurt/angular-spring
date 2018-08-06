@@ -1,6 +1,10 @@
 <div *ngIf="user">
     <h2>{{user.name | uppercase}} Details</h2>
     
+    <div class="alert alert-danger" role="alert" *ngIf="error">
+        {{error}}
+    </div>
+
     <div class="form-group row">
         <label class="col-sm-2 col-form-label">Name</label>
         <b *ngIf="!showInputs()" class="col-form-label">{{user.name}}</b>
@@ -11,6 +15,10 @@
         <b *ngIf="!showInputs()" class="col-form-label">{{user.login}}</b>
         <input type="text" *ngIf="showInputs()" class="col-sm-6 form-control" [(ngModel)]="user.login" placeholder="login"/>
     </div>
+    <div class="form-group row" *ngIf="isNew">
+            <label class="col-sm-2 col-form-label">Password</label>
+            <input type="password" class="col-sm-6 form-control" [(ngModel)]="user.password" placeholder="password"/>
+        </div>
     <div class="form-group row">
         <label class="col-sm-2 col-form-label">Role Type</label>
         <b *ngIf="!showInputs()" class="col-form-label">{{user.roleType}}</b>
@@ -20,9 +28,26 @@
             <option value="ADMIN"[selected]="user.roleType == 'ADMIN'">ADMIN</option>
         </select>
     </div>
+
     <button (click)="editable = true" *ngIf="!showInputs()" class="btn btn-primary mr-1">Edit</button>
     <button (click)="deleteUser()" *ngIf="!showInputs()" class="btn btn-primary mr-1">Delete</button>
     <button (click)="saveUser()" *ngIf="showInputs()" class="btn btn-primary mr-1">Save</button>
     <button (click)="cancelEditing()" *ngIf="editable == true" class="btn btn-primary mr-1">Cancel</button>
+
+    <div *ngIf="editable == true && isNew == false">
+        <hr/>
+        <div class="alert alert-danger" role="alert" *ngIf="passwordError">
+            {{passwordError}}
+        </div>
+        <div class="form-group row">
+        
+            <label class="col-sm-2 col-form-label">Change password</label>
+            <input type="password" class="col-sm-6 form-control" placeholder="password" [(ngModel)]="newPassword"/>
+            <button (click)="changePassword()" class="btn btn-primary ml-1">Change</button>
+        </div>
+    </div>
+    
+    
+    
     <button (click)="goBack()" class="btn btn-primary">Back</button>
   </div>

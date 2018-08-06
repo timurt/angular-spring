@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 import { Apartment } from '../../models/apartment';
 import { ApartmentService } from '../../services/apartment/apartment.service';
 
@@ -9,15 +10,15 @@ import { ApartmentService } from '../../services/apartment/apartment.service';
 })
 export class DashboardComponent implements OnInit {
 
-  apartments : Apartment[] = [];
+  apartments: Apartment[] = [];
 
-  constructor(private apartmentService : ApartmentService) { }
+  constructor(private apartmentService: ApartmentService) { }
 
   ngOnInit() {
     this.getApartments();
   }
 
-  getApartments() : void {
+  getApartments(): void {
     this.apartmentService.getApartments(0, 5, {})
       .subscribe(data => this.apartments = data.content);
   }

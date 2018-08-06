@@ -1,0 +1,62 @@
+
+
+<div class="row">
+    <div class="col">
+    </div>
+    <div class="col">
+
+        <ul class="nav nav-tabs mb-4">
+            <li class="nav-item">
+              <a class="nav-link" [class.active]="isLoginTab == true" (click)="loginTab()" >Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" [class.active]="isLoginTab == false" (click)="registerTab()">Register</a>
+            </li>
+        </ul>
+
+        <div class="alert alert-danger" role="alert" *ngIf="loginError && isLoginTab">
+            {{loginError}}
+        </div>
+        
+        <div class="alert alert-danger" role="alert" *ngIf="registerError && !isLoginTab">
+            {{registerError}}
+        </div>
+
+        <form role="form" (submit)="login()" *ngIf="isLoginTab == true">
+            <div class="form-group">
+              <label for="login">Login:</label> <input type="text"
+                class="form-control" id="login" name="login" [(ngModel)]="loginForm.login"/>
+            </div>
+            <div class="form-group">
+              <label for="password">Password:</label> <input type="password"
+                class="form-control" id="password" name="password" [(ngModel)]="loginForm.password"/>
+            </div>
+            <button type="submit" class="btn btn-primary sm-4">Send</button>
+        </form>
+
+        <form role="form" (submit)="register()" *ngIf="isLoginTab == false">
+            <div class="form-group">
+                <label for="name">Name:</label> <input type="text"
+                  class="form-control" id="name" name="name" [(ngModel)]="registerForm.name"/>
+            </div>
+            <div class="form-group">
+              <label for="login">Login:</label> <input type="text"
+                class="form-control" id="login" name="login" [(ngModel)]="registerForm.login"/>
+            </div>
+            <div class="form-group">
+              <label for="password">Password:</label> <input type="password"
+                class="form-control" id="password" name="password" [(ngModel)]="registerForm.password"/>
+            </div>
+            <div class="form-group">
+                <label for="roleType">RoleType:</label> 
+                <select id="roleType" name="roleType" class="form-control" [(ngModel)]="registerForm.roleType">
+                    <option value="CLIENT" [selected]="registerForm.roleType == 'CLIENT'" >CLIENT</option>
+                    <option value="REALTOR" [selected]="registerForm.roleType == 'REALTOR'">REALTOR</option>
+                </select>
+              </div>
+            <button type="submit" class="btn btn-primary sm-4">Save</button>
+        </form>
+    </div>
+    <div class="col">
+    </div>
+  </div>

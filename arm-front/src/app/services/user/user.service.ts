@@ -1,33 +1,35 @@
 import { Injectable } from '@angular/core';
-import { User } from '../../models/user';
-import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+
+import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
+
+import { User } from '../../models/user';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-}
+};
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+  private usersUrl = 'http://localhost:8080/users';
 
-  private usersUrl = 'http://localhost:8080/users'; 
-  
-  getUsers(page : number, size : number) : Observable<any> {
-    let params = new HttpParams()
+  constructor(private http: HttpClient) {}
+
+  getUsers(page: number, size: number): Observable<any> {
+    const params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
 
-    return this.http.get<any>(this.usersUrl, { params: params }) 
-    .pipe(
+    return this.http.get<any>(this.usersUrl, { params: params }).pipe(
       tap(users => console.log('fetched users')),
       catchError(this.handleError('getUsers', []))
     );
   }
 
-  getUser(id : number) : Observable<User> {
+  getUser(id: number): Observable<User> {
     const url = `${this.usersUrl}/${id}`;
     return this.http.get<User>(url).pipe(
       tap(_ => console.log(`fetched user id=${id}`)),
@@ -35,14 +37,35 @@ export class UserService {
     );
   }
 
-  updateUser (user: User): Observable<any> {
-    return this.http.post(this.usersUrl, user, httpOptions).pipe(
-      tap(_ => console.log(`updated user id=${user.id}`)),
-      catchError(this.handleError<any>('updateUser'))
+  getRealtors(): Observable<User[]> {
+    const url = `${this.usersUrl}/realtors`;
+    return this.http.get<User[]>(url).pipe(
+      tap(_ => console.log(`fetched realtors`)),
+      catchError(this.handleError<User[]>(`getRealtors`))
     );
   }
 
-  deleteUser (user: User | number): Observable<any> {
+  updateUser(user: User): Observable<any> {
+    let url = `${this.usersUrl}`;
+    if (user.id) {
+      url = `${this.usersUrl}/${user.id}`;
+    }
+    return this.http.post(url, user, httpOptions).pipe(
+      tap(_ => console.log(`updated user id=${user.id}`)),
+      catchError(this.handleError<any>('updateUser', {}))
+    );
+  }
+
+  changePassword(data: any): Observable<any> {
+    const url = `${this.usersUrl}/change-password`;
+
+    return this.http.post(url, data, httpOptions).pipe(
+      tap(_ => console.log(`changed password`)),
+      catchError(this.handleError<any>('changePassword', {}))
+    );
+  }
+
+  deleteUser(user: User | number): Observable<any> {
     const id = typeof user === 'number' ? user : user.id;
     const url = `${this.usersUrl}/${id}`;
     return this.http.delete(url, httpOptions).pipe(
@@ -51,14 +74,24 @@ export class UserService {
     );
   }
 
-  private handleError<T> (operation = 'operation', result?: T) {
+  private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-   
       console.error(error); // log to console instead
-   
+      result['error'] = true;
+
+      if (error.status === 400) {
+        result['message'] = 'Fill all fields';
+      }
+
+      if (operation === 'updateUser') {
+        if (error.status === 400) {
+          if (error.error.message === 'User already exists') {
+            result['message'] = 'User already exists';
+          }
+        }
+      }
+
       return of(result as T);
     };
   }
-
-  constructor(private http: HttpClient) { }
 }

@@ -4,7 +4,7 @@
     <span class="navbar-toggler-icon"></span>
   </button>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+  <div class="collapse navbar-collapse" id="navbarSupportedContent" *ngIf="app.authenticated">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item" [class.active]="isCurrentRoute('dashboard')">
         <a class="nav-link" routerLink="/dashboard">Dashboard</a>
@@ -12,10 +12,14 @@
       <li class="nav-item" [class.active]="isCurrentRoute('apartment')">
         <a class="nav-link" routerLink="/apartments">Apartments</a>
       </li>
-      <li class="nav-item" [class.active]="isCurrentRoute('user')">
+      <li class="nav-item" [class.active]="isCurrentRoute('user')" *ngIf="app.roleMatch('ADMIN')">
           <a class="nav-link" routerLink="/users">Users</a>
-        </li>
+      </li>
     </ul>
+    
+    <span class="mr-2">Welcome, {{storage.getLogin()}}</span>
+    
+    <button class="btn btn-outline-info my-2 my-sm-0" (click)="logout()">Logout</button>
   </div>
 </nav>
 

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE suppressions PUBLIC
+    "-//Puppy Crawl//DTD Suppressions 1.2//EN"
+    "http://checkstyle.sourceforge.net/dtds/suppressions_1_2.dtd">
+
+<suppressions>
+    <suppress checks="FinalParameters"
+              files="kz[\\/]iamtim[\\/]arm[\\/]models[\\/]"/>
+
+    <suppress checks="FinalParameters"
+              files="kz[\\/]iamtim[\\/]arm[\\/]payload[\\/]"/>
+
+    <suppress checks="MagicNumber"
+              files="ApartmentDto.java"/>
+
+    <suppress checks="MagicNumber"
+              files="JwtAuthenticationFilter.java"/>
+
+</suppressions>
