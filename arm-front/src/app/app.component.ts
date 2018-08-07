@@ -14,7 +14,7 @@ export class AppComponent {
 
   constructor(
     private location: Location,
-    private app: AuthService,
+    public app: AuthService,
     private storage: TokenStorage) { }
 
   isCurrentRoute(v: string): boolean {

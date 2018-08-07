@@ -3,6 +3,7 @@ package kz.iamtim.arm.service;
 import kz.iamtim.arm.models.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 
@@ -38,7 +39,7 @@ public interface UserService {
      *
      * @return list of users
      */
-    Page<User> getByPage(Pageable pageable);
+    Page<User> getByPage(Specification<User> specs, Pageable pageable);
 
     /**
      * Finds user by id.

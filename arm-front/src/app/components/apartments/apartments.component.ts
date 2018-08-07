@@ -4,6 +4,7 @@ import { Apartment } from '../../models/apartment';
 import { Pagination } from '../../models/pagination';
 import { ApartmentService } from '../../services/apartment/apartment.service';
 import { AuthService } from '../../services/auth/auth.service';
+import { Filter } from '../../models/filter';
 
 @Component({
   selector: 'app-apartments',
@@ -15,11 +16,12 @@ export class ApartmentsComponent implements OnInit {
 
   apartments: Apartment[];
   pagination: Pagination = new Pagination();
-  filters = {};
+  filters: Filter = new Filter();
+  sortBy = 'dateDesc';
   map: google.maps.Map;
   markers: google.maps.Marker[] = [];
 
-  constructor(private apartmentService: ApartmentService, private auth: AuthService) {}
+  constructor(private apartmentService: ApartmentService, public auth: AuthService) {}
 
   ngOnInit() {
     this.mapInitGeo();
@@ -44,7 +46,8 @@ export class ApartmentsComponent implements OnInit {
     this.apartmentService.getApartments(
       this.pagination.currentPage - 1,
       this.pagination.size,
-      this.filters)
+      this.filters,
+      this.sortBy)
       .subscribe(data => {
         console.log(data);
         this.apartments = data.content;
@@ -55,6 +58,11 @@ export class ApartmentsComponent implements OnInit {
 
   onSizeSelect(size: number): void {
     this.pagination.size = size;
+    this.getApartments();
+  }
+
+  onSortSelect(sortBy: string): void {
+    this.sortBy = sortBy;
     this.getApartments();
   }
 
@@ -85,7 +93,7 @@ export class ApartmentsComponent implements OnInit {
   }
 
   onFiltersReset(): void {
-    this.filters = {};
+    this.filters = new Filter();
     this.getApartments();
   }
 

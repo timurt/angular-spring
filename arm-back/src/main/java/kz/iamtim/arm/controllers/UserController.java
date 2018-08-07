@@ -26,8 +26,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static kz.iamtim.arm.specs.UserSpecification.filtered;
 
 /**
  * Controller class for {@code User} class CRUD operations.
@@ -63,10 +66,16 @@ public class UserController {
      */
     @GetMapping
     public Page<UserDto> list(
+            @PathParam("search") final String search,
+            @PathParam("roleType") final String roleType,
             @PageableDefault final Pageable pageable) {
         LOGGER.debug("Get all users");
 
-        final Page<User> users = userService.getByPage(pageable);
+        Role role = null;
+        if (roleType != null && !roleType.isEmpty()) {
+            role = roleService.findByKey(roleType.toUpperCase());
+        }
+        final Page<User> users = userService.getByPage(filtered(search, role), pageable);
 
         Page<UserDto> dtoPage = users.map(user -> new UserDto(user));
         return dtoPage;

@@ -5,7 +5,10 @@ import kz.iamtim.arm.models.User;
 import kz.iamtim.arm.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
@@ -47,8 +50,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Secured("ROLE_ADMIN")
-    public Page<User> getByPage(final Pageable pageable) {
-        return repository.findByIsDeletedIsFalseOrderByUpdatedAtDesc(pageable);
+    public Page<User> getByPage(Specification<User> specs,
+                                final Pageable pageable) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
+        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(),
+                pageable.getPageSize(), sort);
+        return repository.findAll(specs, pageRequest);
     }
 
     @Override

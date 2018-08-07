@@ -16,6 +16,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.web.FilterChainProxy;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -24,8 +25,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.List;
-
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -38,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class ApartmentControllerTest {
+public class UserControllerTest {
 
   @Autowired
   private WebApplicationContext wac;
@@ -73,24 +73,39 @@ public class ApartmentControllerTest {
   }
 
   @Test
-  public void testSaveApartment() throws Exception {
+  public void testSaveUser() throws Exception {
     String accessToken = obtainAccessToken("timurt", "123");
+    System.out.println(accessToken);
 
-    String apartmentString = "{\n"
-            + "\t\"name\" : \"Hello World\",\n"
-            + "\t\"description\" : \"Hello World Description\",\n"
-            + "\t\"floorAreaSize\" : 1.0,\n"
-            + "\t\"pricePerMonth\" : 2.0,\n"
-            + "\t\"numberOfRooms\" : 5,\n"
-            + "\t\"longitude\" : 5.4,\n"
-            + "\t\"latitude\" : 3.2,\n"
-            + "\t\"realtorId\" : 16\n"
-            + "}";
+    String userString = "{\"login\":\"jim@yahoo.com" + System.currentTimeMillis() +
+            "\",\"name\":\"Jim\", \"password\":\"Jim\", "
+            + "\"roleType\":\"Client\"}";
 
-    mockMvc.perform(post("/apartments")
+    mockMvc.perform(post("/users")
             .header("Authorization", "Bearer " + accessToken)
-            .content(apartmentString)
+            .content(userString)
             .contentType("application/json;charset=UTF-8"))
             .andExpect(status().isOk());
+  }
+
+  @Test
+  public void testSaveWrongUser() throws Exception {
+    String accessToken = obtainAccessToken("timurt", "123");
+    System.out.println(accessToken);
+
+    String userString = "{\"name\":\"Jim\", \"password\":\"Jim\", "
+            + "\"roleType\":\"Client\"}";
+
+    mockMvc.perform(post("/users")
+            .header("Authorization", "Bearer " + accessToken)
+            .content(userString)
+            .contentType("application/json;charset=UTF-8"))
+            .andExpect(status().isBadRequest());
+  }
+
+  private HttpEntity<Object> getHttpEntity(Object body) {
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(MediaType.APPLICATION_JSON);
+    return new HttpEntity<Object>(body, headers);
   }
 }

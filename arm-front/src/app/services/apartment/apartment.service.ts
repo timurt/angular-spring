@@ -18,10 +18,11 @@ export class ApartmentService {
 
   constructor(private http: HttpClient) { }
 
-  getApartments(page: number, size: number, filters): Observable<any> {
+  getApartments(page: number, size: number, filters, sortBy: string): Observable<any> {
     let params = new HttpParams()
       .set('page', page.toString())
-      .set('size', size.toString());
+      .set('size', size.toString())
+      .set('sortBy', sortBy.toString());
     for (const key in filters) {
       if (filters.hasOwnProperty(key)) {
         const value = filters[key];

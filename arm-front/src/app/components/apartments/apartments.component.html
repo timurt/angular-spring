@@ -1,20 +1,4 @@
 
-<!-- <ul class="apartments">
-  <li *ngFor="let apartment of apartments" (click)="onSelect(apartment)"
-  [class.selected]="apartment === selectedApartment">
-    <span class="badge">{{apartment.id}}</span> {{apartment.name}}
-  </li>
-
-  <li *ngFor="let apartment of apartments">
-    <a routerLink="/detail/{{apartment.id}}">
-      <span class="badge">{{apartment.id}}</span> {{apartment.name}}
-    </a>
-  </li>
-  
-</ul> -->
-
-<!--<app-apartment-detail [apartment]="selectedApartment"></app-apartment-detail>-->
-
 <div class="jumbotron"> 
     <div class="form-group row">
         <label class="col-sm-3 col-form-label">Floor Area Size</label>
@@ -86,7 +70,18 @@
                   <option value="20"[selected]="pagination.size == 20">20</option>
               </select>
           </div>
+
+          <label class="col-form-label ml-3 mr-1">Sort by</label>
+            <div>
+                <select class="form-control" (change)="onSortSelect($event.target.value)">
+                    <option value="priceAsc">Price Ascending</option>
+                    <option value="priceDesc">Price Descending</option>
+                    <option value="dateDesc" selected="true">Newest First</option>
+                    <option value="dateAsc">Oldest First</option>
+                </select>
+          
       </div>
+    </div>
   </div>
 
   <div class="float-right">
@@ -116,7 +111,7 @@
         <td>{{apartment.floorAreaSize}}</td>
         <td>{{apartment.pricePerMonth}}</td>
         <td>{{apartment.numberOfRooms}}</td>
-        <td>{{apartment.createdAt}}</td>
+        <td>{{apartment.createdAt | date: 'dd/MM/yyyy hh:mm:ss'}}</td>
         <td>
           <a class="btn btn-primary" routerLink="/detail/{{apartment.id}}" role="button">
             View

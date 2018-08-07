@@ -18,7 +18,7 @@ public class ApartmentDto {
 
     /** Name. */
     @NotBlank
-    @Size(min = 1, max = 20)
+    @Size(min = 1, max = 255)
     private String name;
 
     /** description. */

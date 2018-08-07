@@ -19,7 +19,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getApartments(): void {
-    this.apartmentService.getApartments(0, 5, {})
+    this.apartmentService.getApartments(0, 4, {}, 'dateDesc')
       .subscribe(data => this.apartments = data.content);
   }
 }

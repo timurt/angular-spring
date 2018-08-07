@@ -4,6 +4,7 @@ import kz.iamtim.arm.models.Role;
 import kz.iamtim.arm.models.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
@@ -13,7 +14,8 @@ import java.util.List;
  *
  * @author Timur Tibeyev.
  */
-public interface UserRepository extends PagingAndSortingRepository<User, Long> {
+public interface UserRepository extends PagingAndSortingRepository<User, Long>,
+        JpaSpecificationExecutor<User> {
     /**
      * Returns list of users.
      *

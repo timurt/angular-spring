@@ -36,9 +36,27 @@ public class ApartmentServiceImpl implements ApartmentService {
 
     @Override
     public Page<Apartment> getByPage(final Specification<Apartment> specs,
-                                     final Pageable pageable) {
+                                     final Pageable pageable,
+                                     final String sortBy) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
+        if (sortBy != null) {
+            switch (sortBy) {
+                case "priceAsc" :
+                    sort = Sort.by(Sort.Direction.ASC, "pricePerMonth");
+                    break;
+                case "priceDesc" :
+                    sort = Sort.by(Sort.Direction.DESC, "pricePerMonth");
+                    break;
+                case "dateAsc" :
+                    sort = Sort.by(Sort.Direction.ASC, "createdAt");
+                    break;
+                case "dateDesc" :
+                    sort = Sort.by(Sort.Direction.DESC, "createdAt");
+                    break;
+            }
+        }
         PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(),
-                pageable.getPageSize(), Sort.by(Sort.Direction.DESC, "updatedAt"));
+                pageable.getPageSize(), sort);
         return repository.findAll(specs, pageRequest);
     }
 

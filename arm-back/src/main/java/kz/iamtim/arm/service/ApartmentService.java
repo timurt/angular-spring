@@ -28,7 +28,7 @@ public interface ApartmentService {
      *
      * @return list of apartments
      */
-    Page<Apartment> getByPage(Specification<Apartment> specs, Pageable pageable);
+    Page<Apartment> getByPage(Specification<Apartment> specs, Pageable pageable, String sortBy);
 
     /**
      * Finds apartment by id.

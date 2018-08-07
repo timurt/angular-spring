@@ -73,6 +73,7 @@ public class ApartmentController {
             @PathParam("numberOfRoomsFrom") final Integer numberOfRoomsFrom,
             @PathParam("numberOfRoomsTo") final Integer numberOfRoomsTo,
             @PathParam("rented") final Boolean isRented,
+            @PathParam("sortBy") final String sortBy,
             @PageableDefault final Pageable pageable) {
 
         LOGGER.debug("Get apartments endpoint called");
@@ -86,7 +87,8 @@ public class ApartmentController {
                         numberOfRoomsTo,
                         getCurrentUserPrincipal().getRole(),
                         isRented),
-                pageable
+                pageable,
+                sortBy
         );
 
         Page<ApartmentDto> dtoPage = apartments.map(apartment -> new ApartmentDto(apartment));

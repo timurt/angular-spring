@@ -13,7 +13,8 @@ import { UserService } from '../../services/user/user.service';
 export class UsersComponent implements OnInit {
 
   users: User[];
-
+  roleType = '';
+  search = '';
   pagination: Pagination = new Pagination();
 
   constructor(private userService: UserService) { }
@@ -39,7 +40,9 @@ export class UsersComponent implements OnInit {
   getUsers(): void {
     this.userService.getUsers(
       this.pagination.currentPage - 1,
-      this.pagination.size)
+      this.pagination.size,
+      this.search,
+      this.roleType)
       .subscribe(data => {
         console.log(data);
         this.users = data.content;
@@ -49,6 +52,16 @@ export class UsersComponent implements OnInit {
 
   onSizeSelect(size: number): void {
     this.pagination.size = size;
+    this.getUsers();
+  }
+
+  onFiltersApply(): void {
+    this.getUsers();
+  }
+
+  onFiltersReset(): void {
+    this.search = '';
+    this.roleType = '';
     this.getUsers();
   }
 

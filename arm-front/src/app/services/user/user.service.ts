@@ -18,10 +18,12 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  getUsers(page: number, size: number): Observable<any> {
+  getUsers(page: number, size: number, search: string, roleType: string): Observable<any> {
     const params = new HttpParams()
       .set('page', page.toString())
-      .set('size', size.toString());
+      .set('size', size.toString())
+      .set('search', search.toString())
+      .set('roleType', roleType.toString());
 
     return this.http.get<any>(this.usersUrl, { params: params }).pipe(
       tap(users => console.log('fetched users')),
