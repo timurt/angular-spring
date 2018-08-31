@@ -97,8 +97,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Secured("ROLE_ADMIN")
-    public List<User> getRealtors() {
-        Role role = roleService.findByKey("REALTOR");
+    public List<User> getOwners() {
+        Role role = roleService.findByKey("OWNER");
         return repository.findByRoleAndIsDeletedFalse(role);
     }
 

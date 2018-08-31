@@ -12,7 +12,7 @@
               files="kz[\\/]iamtim[\\/]arm[\\/]payload[\\/]"/>
 
     <suppress checks="MagicNumber"
-              files="ApartmentDto.java"/>
+              files="RestaurantDto.java"/>
 
     <suppress checks="MagicNumber"
               files="JwtAuthenticationFilter.java"/>

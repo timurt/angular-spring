@@ -17,5 +17,7 @@ Generate jacoco test coverage report
 Run checkstyle verification
 > $ mvn checkstyle:check
 
-Run application
-> $ mvn spring-boot:run
+Run application with H2 database
+> $ mvn spring-boot:run -Dspring.profiles.active=h2
+
+

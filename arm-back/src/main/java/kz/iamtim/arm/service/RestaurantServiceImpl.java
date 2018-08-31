@@ -1,7 +1,7 @@
 package kz.iamtim.arm.service;
 
-import kz.iamtim.arm.models.Apartment;
-import kz.iamtim.arm.repository.ApartmentRepository;
+import kz.iamtim.arm.models.Restaurant;
+import kz.iamtim.arm.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,29 +15,29 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
- * Apartment service layer implementation.
+ * Restaurant service layer implementation.
  *
  * @author Timur Tibeyev.
  */
 @Service
-public class ApartmentServiceImpl implements ApartmentService {
+public class RestaurantServiceImpl implements RestaurantService {
 
-    /** Apartment repository. */
+    /** Restaurant repository. */
     @Autowired
-    ApartmentRepository repository;
+    RestaurantRepository repository;
 
     @Override
-    @Secured({"ROLE_ADMIN", "ROLE_REALTOR"})
-    public Apartment save(final Apartment apartment) {
-        apartment.setUpdatedAt(LocalDateTime.now());
+    @Secured({"ROLE_ADMIN", "ROLE_OWNER"})
+    public Restaurant save(final Restaurant restaurant) {
+        restaurant.setUpdatedAt(LocalDateTime.now());
 
-        return repository.save(apartment);
+        return repository.save(restaurant);
     }
 
     @Override
-    public Page<Apartment> getByPage(final Specification<Apartment> specs,
-                                     final Pageable pageable,
-                                     final String sortBy) {
+    public Page<Restaurant> getByPage(final Specification<Restaurant> specs,
+                                      final Pageable pageable,
+                                      final String sortBy) {
         Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
         if (sortBy != null) {
             switch (sortBy) {
@@ -61,33 +61,25 @@ public class ApartmentServiceImpl implements ApartmentService {
     }
 
     @Override
-    public Apartment findById(final Long id) {
+    public Restaurant findById(final Long id) {
         return repository.findById(id).get();
     }
 
     @Override
-    public boolean apartmentExists(final Long id) {
+    public boolean restaurantExists(final Long id) {
         if (id == null) {
             return false;
         }
-        Optional<Apartment> optional = repository.findById(id);
+        Optional<Restaurant> optional = repository.findById(id);
         return optional.isPresent() && !optional.get().isDeleted();
     }
 
     @Override
-    @Secured({"ROLE_ADMIN", "ROLE_REALTOR"})
+    @Secured({"ROLE_ADMIN", "ROLE_OWNER"})
     public void delete(final Long id) {
-        final Apartment apartment = repository.findById(id).get();
-        apartment.setDeleted(true);
-        apartment.setDeletedAt(LocalDateTime.now());
-        repository.save(apartment);
-    }
-
-    @Override
-    @Secured({"ROLE_REALTOR"})
-    public void setRented(final Long id, final boolean rented) {
-        final Apartment apartment = repository.findById(id).get();
-        apartment.setRented(rented);
-        repository.save(apartment);
+        final Restaurant restaurant = repository.findById(id).get();
+        restaurant.setDeleted(true);
+        restaurant.setDeletedAt(LocalDateTime.now());
+        repository.save(restaurant);
     }
 }

@@ -107,8 +107,8 @@ public class AuthController {
         user.setLogin(registerRequest.getLogin());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         user.setName(registerRequest.getName());
-        if ("realtor".equalsIgnoreCase(registerRequest.getRoleType())) {
-            user.setRole(roleService.findByKey("REALTOR"));
+        if ("owner".equalsIgnoreCase(registerRequest.getRoleType())) {
+            user.setRole(roleService.findByKey("OWNER"));
         } else {
             user.setRole(roleService.findByKey("CLIENT"));
         }

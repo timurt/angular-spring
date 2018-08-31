@@ -14,7 +14,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class ApartmentService {
-  private apartmentsUrl = 'http://localhost:8080/apartments';
+  private apartmentsUrl = 'http://arm:1234/api/apartments';
 
   constructor(private http: HttpClient) { }
 

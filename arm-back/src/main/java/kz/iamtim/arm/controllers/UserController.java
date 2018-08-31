@@ -39,7 +39,7 @@ import static kz.iamtim.arm.specs.UserSpecification.filtered;
  */
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class UserController {
 
     /** Service layer for db operations over users. */
@@ -82,17 +82,17 @@ public class UserController {
     }
 
     /**
-     * Returns list of the realtors.
+     * Returns list of the owners.
      *
-     * @return list of the realtors
+     * @return list of the owners
      */
-    @GetMapping("/realtors")
-    public List<UserDto> getRealtors() {
-        LOGGER.debug("Get all realtors");
+    @GetMapping("/owners")
+    public List<UserDto> getOwners() {
+        LOGGER.debug("Get all owners");
 
-        List<UserDto> realtors = userService.getRealtors().stream()
+        List<UserDto> owners = userService.getOwners().stream()
                 .map(user -> new UserDto(user)).collect(Collectors.toList());
-        return realtors;
+        return owners;
     }
 
     /**

@@ -45,7 +45,7 @@ export class AuthService {
     }
 
     refreshToken(): void {
-        const authUrl = 'http://localhost:8080/api/auth/refresh-token';
+        const authUrl = 'http://arm:1234/api/auth/refresh-token';
         this.http.post(authUrl, null, httpOptions).pipe(
             tap(data => {
                 console.log('Token updated');
@@ -59,7 +59,7 @@ export class AuthService {
     }
 
     authenticate(credentials): Observable<any> {
-        const authUrl = 'http://localhost:8080/api/auth/login';
+        const authUrl = 'http://arm:1234/api/auth/login';
         return this.http.post(authUrl, credentials, httpOptions).pipe(
             tap(data => {
                 this.token.saveData(data);
@@ -70,7 +70,7 @@ export class AuthService {
     }
 
     register(form): Observable<any> {
-        const authUrl = 'http://localhost:8080/api/auth/register';
+        const authUrl = 'http://arm:1234/api/auth/register';
         return this.http.post(authUrl, form, httpOptions).pipe(
             catchError(this.handleError<any>('registration', {}))
         );

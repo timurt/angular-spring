@@ -84,10 +84,12 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/auth/login", "/api/auth/register")
+                .antMatchers("/api/auth/login", "/api/auth/register", "/h2-console/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated();
+
+        http.headers().frameOptions().sameOrigin();
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 

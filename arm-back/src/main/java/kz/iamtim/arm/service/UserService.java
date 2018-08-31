@@ -95,9 +95,9 @@ public interface UserService {
     User findByLogin(String login);
 
     /**
-     * Returns list of realtors.
+     * Returns list of owners.
      *
-     * @return list of realtors
+     * @return list of owners
      */
-    List<User> getRealtors();
+    List<User> getOwners();
 }

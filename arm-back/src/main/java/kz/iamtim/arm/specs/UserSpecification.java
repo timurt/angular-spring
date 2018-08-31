@@ -7,14 +7,14 @@ import org.springframework.data.jpa.domain.Specification;
 import javax.persistence.criteria.Predicate;
 
 /**
- * Apartment specification.
+ * Restaurant specification.
  *
  * @author Timur Tibeyev.
  */
 public class UserSpecification {
 
     /**
-     * Filters apartments on given inputs.
+     * Filters users on given inputs.
      *
      * @param search search text
      * @param role user role
