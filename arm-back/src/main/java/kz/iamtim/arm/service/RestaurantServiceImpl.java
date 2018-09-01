@@ -47,11 +47,11 @@ public class RestaurantServiceImpl implements RestaurantService {
                 case "priceDesc" :
                     sort = Sort.by(Sort.Direction.DESC, "pricePerMonth");
                     break;
-                case "dateAsc" :
-                    sort = Sort.by(Sort.Direction.ASC, "createdAt");
-                    break;
                 case "dateDesc" :
                     sort = Sort.by(Sort.Direction.DESC, "createdAt");
+                    break;
+                default :
+                    sort = Sort.by(Sort.Direction.ASC, "createdAt");
                     break;
             }
         }

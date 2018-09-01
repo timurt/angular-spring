@@ -58,6 +58,7 @@ public class RestaurantController {
      * @param numberOfSeatsFrom lower bound for {@code Restaurant.numberOfSeatsFrom}
      * @param numberOfSeatsTo   upper bound for {@code Restaurant.numberOfSeatsTo}
      * @param hasWifi boolean property {@code Restaurant.hasWifi}
+     * @param sortBy field to be sorted by
      * @param pageable {@code Pageable} contains page number and page size fields
      *
      * @return list of restaurants
@@ -158,6 +159,7 @@ public class RestaurantController {
         restaurant.setNumberOfSeats(input.getNumberOfSeats());
         restaurant.setLongitude(input.getLongitude());
         restaurant.setLatitude(input.getLatitude());
+        restaurant.setHasWifi(input.isHasWifi());
 
         restaurant.setOwner(getOwner(input));
 

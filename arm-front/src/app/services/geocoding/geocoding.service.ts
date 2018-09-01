@@ -19,8 +19,8 @@ export class GeocodingService {
       .set('key', this.apiKey);
     return this.http.get<any>(this.geocodingUrl, { params: params })
     .pipe(
-      tap(apartments => console.log('fetched geocoding')),
-      catchError(this.handleError('getApartments', []))
+      tap(restaurants => console.log('fetched geocoding')),
+      catchError(this.handleError('getRestaurants', []))
     );
   }
 

@@ -60,6 +60,8 @@ public class UserController {
     /**
      * Returns list of the users.
      *
+     * @param search search text
+     * @param roleType role type
      * @param pageable {@code Pageable} contains page number and page size fields
      *
      * @return list of the users

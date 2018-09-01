@@ -9,8 +9,8 @@
       <li class="nav-item" [class.active]="isCurrentRoute('dashboard')">
         <a class="nav-link" routerLink="/dashboard">Dashboard</a>
       </li>
-      <li class="nav-item" [class.active]="isCurrentRoute('apartment')">
-        <a class="nav-link" routerLink="/apartments">Apartments</a>
+      <li class="nav-item" [class.active]="isCurrentRoute('restaurant')">
+        <a class="nav-link" routerLink="/restaurants">Restaurants</a>
       </li>
       <li class="nav-item" [class.active]="isCurrentRoute('user')" *ngIf="app.roleMatch('ADMIN')">
           <a class="nav-link" routerLink="/users">Users</a>

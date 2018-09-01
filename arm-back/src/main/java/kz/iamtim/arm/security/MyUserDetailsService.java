@@ -28,7 +28,7 @@ public class MyUserDetailsService implements UserDetailsService {
             LoggerFactory.getLogger(MyUserDetailsService.class);
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
         User user = userRepository.findFirstByLogin(username);
 
         if (user == null || user.isDeleted()) {
@@ -47,7 +47,7 @@ public class MyUserDetailsService implements UserDetailsService {
      * @return user details
      */
     @Transactional
-    public UserDetails loadUserById(Long id) {
+    public UserDetails loadUserById(final Long id) {
         User user = userRepository.findById(id).get();
 
         if (user == null) {

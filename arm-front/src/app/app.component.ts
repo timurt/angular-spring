@@ -10,7 +10,7 @@ import { AuthService } from './services/auth/auth.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Apartment Rentals Management Portal';
+  title = 'Restaurant Rentals Management Portal';
 
   constructor(
     private location: Location,

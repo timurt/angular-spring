@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Apartment } from '../../models/apartment';
-import { ApartmentService } from '../../services/apartment/apartment.service';
+import { Restaurant } from '../../models/restaurant';
+import { RestaurantService } from '../../services/restaurant/restaurant.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,16 +10,16 @@ import { ApartmentService } from '../../services/apartment/apartment.service';
 })
 export class DashboardComponent implements OnInit {
 
-  apartments: Apartment[] = [];
+  restaurants: Restaurant[] = [];
 
-  constructor(private apartmentService: ApartmentService) { }
+  constructor(private restaurantService: RestaurantService) { }
 
   ngOnInit() {
-    this.getApartments();
+    this.getRestaurants();
   }
 
-  getApartments(): void {
-    this.apartmentService.getApartments(0, 4, {}, 'dateDesc')
-      .subscribe(data => this.apartments = data.content);
+  getRestaurants(): void {
+    this.restaurantService.getRestaurants(0, 4, {}, 'dateDesc')
+      .subscribe(data => this.restaurants = data.content);
   }
 }

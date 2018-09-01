@@ -1,47 +1,38 @@
 
 <div class="jumbotron"> 
     <div class="form-group row">
-        <label class="col-sm-3 col-form-label">Floor Area Size</label>
+        <label class="col-sm-3 col-form-label">Average Check</label>
         <div class="col-sm-2">
-            <input type="text" [(ngModel)]="filters.floorAreaSizeFrom" class="form-control" placeholder="from"/>
+            <input type="text" [(ngModel)]="filters.averageCheckFrom" class="form-control" placeholder="from"/>
         </div>
         <div class="col-sm-2">
-            <input type="text" [(ngModel)]="filters.floorAreaSizeTo" class="form-control" placeholder="to"/>
-        </div>
-    </div>
-    <div class="form-group row">
-        <label class="col-sm-3 col-form-label">Price Per Month</label>
-        <div class="col-sm-2">
-            <input type="text" [(ngModel)]="filters.pricePerMonthFrom" class="form-control" placeholder="from"/>
-        </div>
-        <div class="col-sm-2">
-            <input type="text" [(ngModel)]="filters.pricePerMonthTo" class="form-control" placeholder="to"/>
+            <input type="text" [(ngModel)]="filters.averageCheckTo" class="form-control" placeholder="to"/>
         </div>
     </div>
     <div class="form-group row">
-        <label class="col-sm-3 col-form-label">Number Of Rooms</label>
+        <label class="col-sm-3 col-form-label">Number Of Seats</label>
         <div class="col-sm-2">
-            <input type="text" [(ngModel)]="filters.numberOfRoomsFrom" class="form-control" placeholder="from"/>
+            <input type="text" [(ngModel)]="filters.numberOfSeatsFrom" class="form-control" placeholder="from"/>
         </div>
         <div class="col-sm-2">
-            <input type="text" [(ngModel)]="filters.numberOfRoomsTo" class="form-control" placeholder="to"/>
+            <input type="text" [(ngModel)]="filters.numberOfSeatsTo" class="form-control" placeholder="to"/>
         </div>
     </div>
 
-    <div class="form-group row" *ngIf="auth.roleMatch(['ADMIN', 'REALTOR'])">
-      <label class="col-sm-3 col-form-label">Availability</label>
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label">Has Wifi</label>
       <div class="form-check form-check-inline">
-          <input (click)="deleteRented()" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3" [checked]="filters.isRented == null">
+          <input (click)="deleteWifi()" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" [checked]="filters.hasWifi == null">
           <label class="form-check-label" for="inlineRadio3">All</label>
       </div>
       <div class="form-check form-check-inline">
-          <input (click)="setRented(false)" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-          <label class="form-check-label" for="inlineRadio1">Free</label>
+          <input (click)="setWifi(true)" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1">
+          <label class="form-check-label" for="inlineRadio1">Yes</label>
       </div>
 
       <div class="form-check form-check-inline">
-          <input (click)="setRented(true)" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-          <label class="form-check-label" for="inlineRadio2">Rented</label>
+          <input (click)="setWifi(false)" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2">
+          <label class="form-check-label" for="inlineRadio2">No</label>
       </div>
       
     </div>
@@ -97,23 +88,21 @@
       <tr>
         <th scope="col">#</th>
         <th scope="col">Name</th>
-        <th scope="col">Floor Area Size</th>
-        <th scope="col">Price Per Month</th>
-        <th scope="col">Number Of Rooms</th>
+        <th scope="col">Average Check</th>
+        <th scope="col">Number Of Seats</th>
         <th scope="col">Added date</th>
         <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let apartment of apartments">
-        <th scope="row">{{apartment.id}}</th>
-        <td>{{apartment.name}}</td>
-        <td>{{apartment.floorAreaSize}}</td>
-        <td>{{apartment.pricePerMonth}}</td>
-        <td>{{apartment.numberOfRooms}}</td>
-        <td>{{apartment.createdAt | date: 'dd/MM/yyyy hh:mm:ss'}}</td>
+      <tr *ngFor="let restaurant of restaurants">
+        <th scope="row">{{restaurant.id}}</th>
+        <td>{{restaurant.name}}</td>
+        <td>{{restaurant.averageCheck}}</td>
+        <td>{{restaurant.numberOfSeats}}</td>
+        <td>{{restaurant.createdAt | date: 'dd/MM/yyyy hh:mm:ss'}}</td>
         <td>
-          <a class="btn btn-primary" routerLink="/detail/{{apartment.id}}" role="button">
+          <a class="btn btn-primary" routerLink="/detail/{{restaurant.id}}" role="button">
             View
           </a>
         </td>

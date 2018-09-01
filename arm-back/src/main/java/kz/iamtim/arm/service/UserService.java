@@ -35,6 +35,7 @@ public interface UserService {
     /**
      * Returns list of users.
      *
+     * @param specs user specification
      * @param pageable {@code Pageable} object
      *
      * @return list of users

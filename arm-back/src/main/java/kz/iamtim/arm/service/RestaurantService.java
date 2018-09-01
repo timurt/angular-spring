@@ -25,6 +25,7 @@ public interface RestaurantService {
      *
      * @param specs restaurant specification
      * @param pageable {@code Pageable} object
+     * @param sortBy field to be sorted by
      *
      * @return list of restaurants
      */

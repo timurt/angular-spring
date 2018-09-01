@@ -1,31 +1,31 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { Apartment } from '../../models/apartment';
+import { Restaurant } from '../../models/restaurant';
 import { Pagination } from '../../models/pagination';
-import { ApartmentService } from '../../services/apartment/apartment.service';
+import { RestaurantService } from '../../services/restaurant/restaurant.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { Filter } from '../../models/filter';
 
 @Component({
-  selector: 'app-apartments',
-  templateUrl: './apartments.component.html',
-  styleUrls: ['./apartments.component.css']
+  selector: 'app-restaurants',
+  templateUrl: './restaurants.component.html',
+  styleUrls: ['./restaurants.component.css']
 })
-export class ApartmentsComponent implements OnInit {
+export class RestaurantsComponent implements OnInit {
   @ViewChild('gmap') gmapElement: any;
 
-  apartments: Apartment[];
+  restaurants: Restaurant[];
   pagination: Pagination = new Pagination();
   filters: Filter = new Filter();
   sortBy = 'dateDesc';
   map: google.maps.Map;
   markers: google.maps.Marker[] = [];
 
-  constructor(private apartmentService: ApartmentService, public auth: AuthService) {}
+  constructor(private restaurantService: RestaurantService, public auth: AuthService) {}
 
   ngOnInit() {
     this.mapInitGeo();
-    this.getApartments();
+    this.getRestaurants();
   }
 
   constructPagination(data): void {
@@ -42,15 +42,15 @@ export class ApartmentsComponent implements OnInit {
     }
   }
 
-  getApartments(): void {
-    this.apartmentService.getApartments(
+  getRestaurants(): void {
+    this.restaurantService.getRestaurants(
       this.pagination.currentPage - 1,
       this.pagination.size,
       this.filters,
       this.sortBy)
       .subscribe(data => {
         console.log(data);
-        this.apartments = data.content;
+        this.restaurants = data.content;
         this.constructPagination(data);
         this.setMarkers();
       });
@@ -58,24 +58,24 @@ export class ApartmentsComponent implements OnInit {
 
   onSizeSelect(size: number): void {
     this.pagination.size = size;
-    this.getApartments();
+    this.getRestaurants();
   }
 
   onSortSelect(sortBy: string): void {
     this.sortBy = sortBy;
-    this.getApartments();
+    this.getRestaurants();
   }
 
   onPageSelect(page: number): void {
     this.pagination.currentPage = page;
-    this.getApartments();
+    this.getRestaurants();
   }
 
   onPrevPage(): void {
     const min = this.pagination.currentPage - (this.pagination.currentPage - 1) % 5;
     if (min - 1 > 0) {
       this.pagination.currentPage = min - 1;
-      this.getApartments();
+      this.getRestaurants();
     }
   }
 
@@ -84,25 +84,25 @@ export class ApartmentsComponent implements OnInit {
     const max = min + 5;
     if (min <= this.pagination.totalPages) {
       this.pagination.currentPage = max;
-      this.getApartments();
+      this.getRestaurants();
     }
   }
 
   onFiltersApply(): void {
-    this.getApartments();
+    this.getRestaurants();
   }
 
   onFiltersReset(): void {
     this.filters = new Filter();
-    this.getApartments();
+    this.getRestaurants();
   }
 
-  setRented(isRented: boolean): void {
-    this.filters['isRented'] = isRented;
+  setWifi(hasWifi: boolean): void {
+    this.filters['hasWifi'] = hasWifi;
   }
 
-  deleteRented(): void {
-    delete  this.filters['isRented'];
+  deleteWifi(): void {
+    delete  this.filters['hasWifi'];
   }
 
   setMarkers(): void {
@@ -110,22 +110,22 @@ export class ApartmentsComponent implements OnInit {
       marker.setMap(null);
     }
     this.markers = [];
-    for (const apartment of this.apartments) {
-      const center = {lat: +apartment.latitude, lng: +apartment.longitude};
+    for (const restaurant of this.restaurants) {
+      const center = {lat: +restaurant.latitude, lng: +restaurant.longitude};
       const marker = new google.maps.Marker(
         {
         position: center,
         map: this.map,
-        title: apartment.name
+        title: restaurant.name
       });
 
       marker['json'] = {
-        name : apartment.name,
-        description : apartment.description,
-        pricePerMonth : apartment.pricePerMonth,
-        numberOfRooms : apartment.numberOfRooms,
-        floorAreaSize : apartment.floorAreaSize,
-        id : apartment.id
+        name : restaurant.name,
+        description : restaurant.description,
+        averageCheck : restaurant.averageCheck,
+        numberOfSeats : restaurant.numberOfSeats,
+        hasWifi : restaurant.hasWifi,
+        id : restaurant.id
       };
       marker.addListener('click', function() {
         const contentString = '<div id="content">' +
@@ -134,9 +134,8 @@ export class ApartmentsComponent implements OnInit {
         `<h1 id="firstHeading" class="firstHeading">${marker['json'].name}</h1>` +
         '<div id="bodyContent">' +
         `<p>${marker['json'].description}</p>` +
-        `<p>Number of rooms : ${marker['json'].numberOfRooms}</p>` +
-        `<p>Price per month : ${marker['json'].pricePerMonth} $ </p>` +
-        `<p>Floor area size : ${marker['json'].floorAreaSize} m<sup>2</sup></p>` +
+        `<p>Average paycheck : ${marker['json'].averageCheck} $</p>` +
+        `<p>Number of seats : ${marker['json'].numberOfSeats} seats </p>` +
         `<a href="/detail/${marker['json'].id}">More</a>` +
         '</div>' +
         '</div>';

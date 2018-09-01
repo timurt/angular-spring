@@ -4,47 +4,47 @@ import { Location } from '@angular/common';
 
 import { } from '@types/googlemaps';
 
-import { Apartment } from '../../models/apartment';
-import { ApartmentService } from '../../services/apartment/apartment.service';
+import { Restaurant } from '../../models/restaurant';
+import { RestaurantService } from '../../services/restaurant/restaurant.service';
 import { GeocodingService } from '../../services/geocoding/geocoding.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { User } from '../../models/user';
 import { UserService } from '../../services/user/user.service';
 
 @Component({
-  selector: 'app-apartment-detail',
-  templateUrl: './apartment-detail.component.html',
-  styleUrls: ['./apartment-detail.component.css']
+  selector: 'app-restaurant-detail',
+  templateUrl: './restaurant-detail.component.html',
+  styleUrls: ['./restaurant-detail.component.css']
 })
-export class ApartmentDetailComponent implements OnInit {
+export class RestaurantDetailComponent implements OnInit {
 
   @ViewChild('gmap') gmapElement: any;
   @ViewChild('nameInput') input: ElementRef;
-  @Input() apartment: Apartment;
+  @Input() restaurant: Restaurant;
   editable = false;
   isNew = false;
   error: boolean;
   map: google.maps.Map;
   marker: google.maps.Marker;
   address = '';
-  realtors: User[];
+  owners: User[];
 
   constructor(
     private route: ActivatedRoute,
-    private apartmentService: ApartmentService,
+    private restaurantService: RestaurantService,
     private geocodingService: GeocodingService,
     private location: Location,
     private auth: AuthService,
     private userService: UserService) { }
 
   ngOnInit() {
-    this.getApartment();
+    this.getRestaurant();
     this.mapInitGeo();
 
     if (this.auth.roleMatch(['ADMIN'])) {
-      this.userService.getRealtors()
-      .subscribe(realtors => {
-        this.realtors = realtors;
+      this.userService.getOwners()
+      .subscribe(owners => {
+        this.owners = owners;
       });
     }
   }
@@ -54,7 +54,7 @@ export class ApartmentDetailComponent implements OnInit {
   }
 
   mapSetMarker(): void {
-    const center = {lat: +this.apartment.latitude, lng: +this.apartment.longitude};
+    const center = {lat: +this.restaurant.latitude, lng: +this.restaurant.longitude};
     this.map.setCenter(center);
     if (this.marker) {
       this.marker.setMap(null);
@@ -71,8 +71,8 @@ export class ApartmentDetailComponent implements OnInit {
     const parent = this;
     this.map.addListener('click', function(e) {
       if (parent.editable === true || parent.isNew === true) {
-        parent.apartment.longitude = e.latLng.lng();
-        parent.apartment.latitude = e.latLng.lat();
+        parent.restaurant.longitude = e.latLng.lng();
+        parent.restaurant.latitude = e.latLng.lat();
         parent.mapSetMarker();
         parent.input.nativeElement.focus();
         parent.input.nativeElement.blur();
@@ -93,22 +93,22 @@ export class ApartmentDetailComponent implements OnInit {
     }
   }
 
-  getApartment(): void {
+  getRestaurant(): void {
     const id = +this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.apartmentService.getApartment(id)
-      .subscribe(apartment => {
-        this.apartment = apartment;
+      this.restaurantService.getRestaurant(id)
+      .subscribe(restaurant => {
+        this.restaurant = restaurant;
         this.mapSetMarker();
       });
     } else {
       this.isNew = true;
-      this.apartment = new Apartment();
+      this.restaurant = new Restaurant();
     }
   }
 
-  saveApartment() {
-    this.apartmentService.updateApartment(this.apartment)
+  saveRestaurant() {
+    this.restaurantService.updateRestaurant(this.restaurant)
     .subscribe(data => {
       if (data.error) {
         this.error = data.message;
@@ -118,25 +118,9 @@ export class ApartmentDetailComponent implements OnInit {
     });
   }
 
-  setFree(): void {
-    if (this.apartment.isRented) {
-      this.apartmentService.freeApartment(this.apartment)
-      .subscribe(() => alert('Apartment is available now'));
-      this.apartment.isRented = false;
-    }
-  }
-
-  setRented(): void {
-    if (!this.apartment.isRented) {
-      this.apartmentService.rentApartment(this.apartment)
-      .subscribe(() => alert('Apartment is rented now'));
-      this.apartment.isRented = true;
-    }
-  }
-
-  deleteApartment() {
+  deleteRestaurant() {
     if (confirm('Are you sure?')) {
-      this.apartmentService.deleteApartment(this.apartment)
+      this.restaurantService.deleteRestaurant(this.restaurant)
     .subscribe(() => this.goBack());
     } else {
       return;
@@ -144,7 +128,7 @@ export class ApartmentDetailComponent implements OnInit {
   }
 
   cancelEditing() {
-    this.getApartment();
+    this.getRestaurant();
     this.editable = false;
   }
 
@@ -162,8 +146,8 @@ export class ApartmentDetailComponent implements OnInit {
     .subscribe(data => {
       if (data.status === 'OK' && data.results) {
         parent.address = data.results[0].formatted_address;
-        parent.apartment.longitude = data.results[0].geometry.location.lng;
-        parent.apartment.latitude = data.results[0].geometry.location.lat;
+        parent.restaurant.longitude = data.results[0].geometry.location.lng;
+        parent.restaurant.latitude = data.results[0].geometry.location.lat;
         parent.mapSetMarker();
       } else {
         alert('Not found');

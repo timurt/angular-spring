@@ -1,8 +1,8 @@
-<h3>The Newest Apartments</h3>
+<h3>The Newest Restaurants</h3>
 <div class="grid grid-pad">
-  <a *ngFor="let apartment of apartments" class="col-1-4" routerLink="/detail/{{apartment.id}}">
+  <a *ngFor="let restaurant of restaurants" class="col-1-4" routerLink="/detail/{{restaurant.id}}">
     <div class="module hero">
-      <h4>{{apartment.name}}</h4>
+      <h4>{{restaurant.name}}</h4>
     </div>
   </a>
 </div>

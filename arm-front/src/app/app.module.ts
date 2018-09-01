@@ -6,8 +6,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
-import { ApartmentsComponent } from './components/apartments/apartments.component';
-import { ApartmentDetailComponent } from './components/apartment-detail/apartment-detail.component';
+import { RestaurantsComponent } from './components/restaurants/restaurants.component';
+import { RestaurantDetailComponent } from './components/restaurant-detail/restaurant-detail.component';
 import { UsersComponent } from './components/users/users.component';
 import { UserDetailComponent } from './components/user-detail/user-detail.component';
 import { LoginComponent } from './components/login/login.component';
@@ -22,8 +22,8 @@ import { TokenInterceptor } from './core/token-interceptor';
 @NgModule({
   declarations: [
     AppComponent,
-    ApartmentsComponent,
-    ApartmentDetailComponent,
+    RestaurantsComponent,
+    RestaurantDetailComponent,
     DashboardComponent,
     UsersComponent,
     UserDetailComponent,

@@ -20,6 +20,8 @@ public class RestaurantSpecification {
      * @param numberOfSeatsFrom lower bound for {@code Restaurant.numberOfSeats}
      * @param numberOfSeatsTo   upper bound for {@code Restaurant.numberOfSeats}
      * @param role current user role
+     * @param userId current user id
+     * @param hasWifi flag if restaurant has wifi or not
      *
      * @return specification object
      */

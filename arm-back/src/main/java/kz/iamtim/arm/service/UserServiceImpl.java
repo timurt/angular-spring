@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Secured("ROLE_ADMIN")
-    public Page<User> getByPage(Specification<User> specs,
+    public Page<User> getByPage(final Specification<User> specs,
                                 final Pageable pageable) {
         Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
         PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(),

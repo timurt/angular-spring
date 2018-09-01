@@ -39,11 +39,11 @@ export class UserService {
     );
   }
 
-  getRealtors(): Observable<User[]> {
-    const url = `${this.usersUrl}/realtors`;
+  getOwners(): Observable<User[]> {
+    const url = `${this.usersUrl}/owners`;
     return this.http.get<User[]>(url).pipe(
-      tap(_ => console.log(`fetched realtors`)),
-      catchError(this.handleError<User[]>(`getRealtors`))
+      tap(_ => console.log(`fetched owners`)),
+      catchError(this.handleError<User[]>(`getOwners`))
     );
   }
 

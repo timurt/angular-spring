@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ApartmentsComponent } from './components/apartments/apartments.component';
+import { RestaurantsComponent } from './components/restaurants/restaurants.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { ApartmentDetailComponent } from './components/apartment-detail/apartment-detail.component';
+import { RestaurantDetailComponent } from './components/restaurant-detail/restaurant-detail.component';
 import { UsersComponent } from './components/users/users.component';
 import { UserDetailComponent } from './components/user-detail/user-detail.component';
 import { LoginComponent } from './components/login/login.component';
@@ -31,16 +31,16 @@ const routes: Routes = [
     component: LoginComponent
   },
   {
-    path: 'apartments',
-    component: ApartmentsComponent
+    path: 'restaurants',
+    component: RestaurantsComponent
   },
   {
     path: 'detail/:id',
-    component: ApartmentDetailComponent
+    component: RestaurantDetailComponent
   },
   {
     path: 'create',
-    component: ApartmentDetailComponent,
+    component: RestaurantDetailComponent,
     canActivate: [AuthGuard],
     data: { roles: ['ADMIN', 'REALTOR'] }
   },

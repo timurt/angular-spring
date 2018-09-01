@@ -240,10 +240,10 @@ public class RestaurantDto {
     /**
      * Setter method.
      *
-     * @param ownerName owner name
+     * @param value owner name
      */
-    public void setOwnerName(String ownerName) {
-        this.ownerName = ownerName;
+    public void setOwnerName(String value) {
+        this.ownerName = value;
     }
 
     /**
@@ -258,10 +258,10 @@ public class RestaurantDto {
     /**
      * Setter method.
      *
-     * @param ownerId owner id
+     * @param value owner id
      */
-    public void setOwnerId(Long ownerId) {
-        this.ownerId = ownerId;
+    public void setOwnerId(Long value) {
+        this.ownerId = value;
     }
 
     /**
